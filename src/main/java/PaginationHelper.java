@@ -2,14 +2,14 @@ public class PaginationHelper {
     /**
      * PaginationHelper class implements pagination of UI components
      */
-    char[] itemsArr;
+    Object[] itemsArr;
     int itemsPerPage;
 
     /**
      * @param itemsArr     array of items
      * @param itemsPerPage quantity of items on the one page
      */
-    public PaginationHelper(char[] itemsArr, int itemsPerPage) {
+    public PaginationHelper(Object[] itemsArr, int itemsPerPage) {
         this.itemsArr = itemsArr;
         this.itemsPerPage = itemsPerPage;
     }
@@ -32,9 +32,9 @@ public class PaginationHelper {
         if (itemsPerPage <= 0) {
             return 0;
         }
-        double temp = itemsArr.length / (double) itemsPerPage;
+        double temp = Math.ceil((double) itemsArr.length / itemsPerPage);
         int pagesQuantity;
-        if (temp == (int) temp) {
+        if (temp == temp) {
             pagesQuantity = (int) temp;
         } else {
             pagesQuantity = (int) (temp + 1);
@@ -53,7 +53,7 @@ public class PaginationHelper {
         if (itemIndex < 0 || itemIndex >= itemCount() || itemsPerPage <= 0) {
             return -1;
         }
-        pageIndexNumber = (int) (itemIndex / (double) itemsPerPage);
+        pageIndexNumber = (int) Math.ceil(itemIndex / itemsPerPage);
         return pageIndexNumber;
     }
 
@@ -64,12 +64,12 @@ public class PaginationHelper {
      * @return quantity of items on the specified page index
      */
     public int pageItemCount(int pageIndex) {
-        if (pageIndex < 0 || pageIndex >= pageCount()) {
+        if (pageIndex < 0 || pageIndex > pageCount()) {
             return -1;
         }
-        double temp = itemsArr.length / (double) itemsPerPage;
+        int temp = itemsArr.length / itemsPerPage;
         int itemsNumber;
-        if (temp == (int) temp || pageIndex + 1 <= (int) temp) {
+        if (pageIndex + 1 <= temp) {
             itemsNumber = itemsPerPage;
         } else {
             itemsNumber = itemsArr.length - (int) temp * itemsPerPage;
